@@ -1,12 +1,13 @@
 import cmd
-import string, sys
+import sys
 
 
 class Command(cmd.Cmd):
-    def __init__(self, new_file_handler, new_view):
+    def __init__(self, new_file_handler, new_db, new_view):
         cmd.Cmd.__init__(self)
         self.prompt = "> "
         self.file_handler = new_file_handler
+        self.db = new_db
         self.view = new_view
 
     def do_quit(self, arg):
@@ -25,4 +26,11 @@ class Command(cmd.Cmd):
         if(contents):
             self.view.display(contents)
 
+    def do_test(self, arg):
+        contents = self.file_handler.open("c:/testfile/file.txt")
+        if (contents):
+            self.view.display(contents)
+            self.db.insert(contents)
 
+    def do_get(self, arg):
+        self.db.query(arg)

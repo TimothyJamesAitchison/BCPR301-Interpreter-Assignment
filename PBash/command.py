@@ -18,31 +18,25 @@ class Command(cmd.Cmd):
         print("-- terminates the application")
 
     def help_open(self):
-        print(self.file_handler.open_help("OPEN"))
         print("syntax: open c:/example/foobar.txt")
         print("-- opens a file from absolute file-path")
 
     def do_open(self, arg):
         contents = self.file_handler.open(arg)
-        if contents:
+        if(contents):
             self.view.display(contents)
-            self.db.insert(contents)
-
-    def do_bar(self, arg):
-        if self.db.get_data(arg):
-            self.view.plot_bar(self.db.get_data(arg), arg)
 
     def do_test(self, arg):
         contents = self.file_handler.open("c:/testfile/file.txt")
-        if contents:
+        if (contents):
             self.view.display(contents)
             self.db.insert(contents)
+
+    def help_test(self):
+        print("validate the content")
 
     def do_get(self, arg):
         self.db.query(arg)
 
-    def do_pie(self, arg):
-        arg = arg.upper()
-        if arg == "GENDER":
-            if self.db.get_data(arg):
-                self.view.plot_pie_gender(self.db.get_data(arg))
+    def help_get(self):
+        print("display the infomation of a target employee by ID")

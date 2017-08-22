@@ -5,9 +5,16 @@ class DatabaseHandler:
     def __init__(self, new_validator):
         self.validator = new_validator
         try:
+            self.connection = sqlite3.connect("company.db")
+            self.cursor = self.connection.cursor()
+            self.close_db()
+        except Exception as e:
+            print(e)
+
+    def load(self):
+        try:
             self.destroy_db()
             self.build_db()
-            self.close_db()
         except Exception as e:
             print(e)
         else:

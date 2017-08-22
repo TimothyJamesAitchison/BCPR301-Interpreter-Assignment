@@ -49,7 +49,7 @@ class Validator(IFileValidator):
         self.id_rule = "[A-Z][0-9]{3}"
         self.gender_rule = "(M|F)"
         self.age_rule = "[0-9]{2}"
-        self.sales_rule =  "[0-9]{3}"
+        self.sales_rule = "[0-9]{3}"
         self.bmi_rule = "(Normal|Overweight|Obesity|Underweight)"
         self.salary_rule = "[0-9]{2,3}"
         self.birthday_rule = "[1-31]-[1-12]-[0-9]{4}"
@@ -100,16 +100,26 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
-    def check_gender(self, gender):
-        # Should be F or M
-        genders = ["F", "M"]
-        if gender not in genders:
-            return False
-        return True
-
     def check_sales(self, sales):
-        if sales not in range(1,999):
-            print('Invalid sales!')
+        """
+        >>> v = Validator()
+        >>> v.check_sales(-1)
+        False
+        >>> v.check_sales(0)
+        False
+        >>> v.check_sales(1)
+        True
+        >>> v.check_sales(2.5)
+        False
+        >>> v.check_sales(999)
+        True
+        >>> v.check_sales(1000)
+        False
+        >>> v.check_sales("1")
+        False
+        """
+        if sales not in range(1, 1000):
+            print('Invalid sales!', file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
@@ -133,7 +143,25 @@ class Validator(IFileValidator):
             return False
 
     def check_birthday_against_age(self, birthday, age):
-        pass
+        """
+        >>> v = Validator()
+        >>> v.check_birthday_against_age('19-06-1988', 28)
+        False
+        >>> v.check_birthday_against_age('19-06-1988', 29)
+        True
+        >>> v.check_birthday_against_age('19-06-1988', 30)
+        False
+        """
+        if not self.check_birthday(birthday):
+            return False
+        else:
+            day_month_year = birthday.split("-")
+            day = int(day_month_year[0])
+            month = int(day_month_year[1])
+            year = int(day_month_year[2])
+            today = date.date.today()
+            return age == today.year - year - ((today.month, today.day) < (month, day))
+
 
     def check_in_attributes(self, query_attribute):
         """
@@ -156,10 +184,6 @@ class Validator(IFileValidator):
         True
         >>> v.check_in_attributes("SALE")
         False
-        >>> v.check_in_attributes(True)
-        False
-        >>> v.check_in_attributes(False)
-        False
         >>> v.check_in_attributes(1)
         False
         """
@@ -170,4 +194,4 @@ class Validator(IFileValidator):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=1)
+    doctest.testmod(verbose=0)

@@ -100,6 +100,13 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
+    def check_gender(self, gender):
+        # Should be F or M
+        genders = ["F", "M"]
+        if gender not in genders:
+            return False
+        return True
+
     def check_sales(self, sales):
         if sales not in range(1,999):
             print('Invalid sales!')

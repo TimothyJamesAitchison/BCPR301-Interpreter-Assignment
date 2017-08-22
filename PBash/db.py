@@ -80,15 +80,3 @@ class DatabaseHandler:
         else:
             print("No such employee found")
         self.close_db()
-
-    def get_data(self, field):
-        self.open_db()
-        if not self.validator.check_in_attributes(field):
-            return False
-        else:
-            sql_result = self.cursor.execute('SELECT EMPID, {field} FROM employee'.format(field=field))
-            employees = sql_result.fetchall()
-            for employee in employees:
-                print(employee)
-            self.close_db()
-            return employees

@@ -44,6 +44,7 @@ class IFileValidator(metaclass=ABCMeta):
 
 
 class Validator(IFileValidator):
+
     def __init__(self):
         self.id_rule = "[A-Z][0-9]{3}"
         self.gender_rule = "(M|F)"
@@ -128,5 +129,38 @@ class Validator(IFileValidator):
         pass
 
     def check_in_attributes(self, query_attribute):
-        print(query_attribute)
-        return query_attribute in self.attributes
+        """
+        >>> v = Validator()
+        >>> v.check_in_attributes("EMPID")
+        True
+        >>> v.check_in_attributes("GENDER")
+        True
+        >>> v.check_in_attributes("AGE")
+        True
+        >>> v.check_in_attributes("SALES")
+        True
+        >>> v.check_in_attributes("BMI")
+        True
+        >>> v.check_in_attributes("SALARY")
+        True
+        >>> v.check_in_attributes("BIRTHDAY")
+        True
+        >>> v.check_in_attributes("Salary")
+        True
+        >>> v.check_in_attributes("SALE")
+        False
+        >>> v.check_in_attributes(True)
+        False
+        >>> v.check_in_attributes(False)
+        False
+        >>> v.check_in_attributes(1)
+        False
+        """
+        try:
+            return query_attribute.upper() in self.attributes
+        except AttributeError:
+            return False
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=1)

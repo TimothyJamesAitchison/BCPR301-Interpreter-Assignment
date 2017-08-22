@@ -80,13 +80,31 @@ class Validator(IFileValidator):
         return True
 
     def check_id(self, emp_id):
-        pass
+        # Should be in form of [A-Z][0-9]{3}
+        if len(emp_id) != 3:
+            print('The length of employeeID is invalid!', file=sys.stderr)
+            return False
+        else:
+            if emp_id.islower():
+                print('The format of employeeID is invalid!', file=sys.stderr)
+                return False
+        # Failing to invalidate is a success
+        return True
 
     def check_age(self, age):
-        pass
+        # Should be between 1-99
+        if age not in range(1,100):
+            print('Invalid age!')
+            return False
+        # Failing to invalidate is a success
+        return True
 
     def check_sales(self, sales):
-        pass
+        if sales not in range(1,999):
+            print('Invalid sales!')
+            return False
+        # Failing to invalidate is a success
+        return True
 
     def check_bmi(self, bmi):
         pass

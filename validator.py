@@ -44,6 +44,7 @@ class IFileValidator(metaclass=ABCMeta):
 
 
 class Validator(IFileValidator):
+
     def __init__(self):
         self.id_rule = "[A-Z][0-9]{3}"
         self.gender_rule = "(M|F)"
@@ -76,47 +77,61 @@ class Validator(IFileValidator):
                 return False
         if not self.check_birthday(employee_attributes["BIRTHDAY"]):
             return False
-        if not self.check_bmi(employee_attributes["BMI"]):
-            return False
-        if not self.check_salary(employee_attributes["SALARY"]):
-            return False
         # Failing to invalidate is a success
         return True
 
     def check_id(self, emp_id):
-        if not re.match("[A-Z][0-9]{3}",emp_id):
-            print("Invalid Emp Id")
+        # Should be in form of [A-Z][0-9]{3}
+        if len(emp_id) != 3:
+            print('The length of employeeID is invalid!', file=sys.stderr)
             return False
         else:
-            print("Valid Emp Id")
-            return True
+            if emp_id.islower():
+                print('The format of employeeID is invalid!', file=sys.stderr)
+                return False
+        # Failing to invalidate is a success
+        return True
+    def check_gender(self,gender):
+        sex = ['M', 'F']
+        if gender in sex:
+            return  True
+        else:
+            return  False
 
     def check_age(self, age):
-        pass
+        # Should be between 1-99
+        if age not in range(1,100):
+            print('Invalid age!')
+            return False
+        # Failing to invalidate is a success
+        return True
 
     def check_sales(self, sales):
-        pass
+        if sales not in range(1,999):
+            print('Valid sales!')
+            return True
+        # Failing to invalidate is a success
+        return False
 
     def check_bmi(self, bmi):
-            bmi = bmi.upper()
-            body_mass_index = ['NORMAL','OVERWEIGHT','OBESITY','UNDERWEIGHT'];
+        bmi = bmi.upper()
+        body_mass_index = ['NORMAL', 'OVERWEIGHT', 'OBESITY', 'UNDERWEIGHT'];
 
-            for x in body_mass_index:
-                if bmi == x:
-                 return True
+        for x in body_mass_index:
+            if bmi == x:
+                return True
 
-            print('The BMI was invalid', file=sys.stderr)
-            return False
-
-
+        print('The BMI was invalid', file=sys.stderr)
+        return False
 
     def check_salary(self, salary):
-        if not re.match("[0-9]{2,3}",salary):
+        if not re.match("[0-9]{2,3}", salary):
             print("Invalid salary")
             return False
         else:
             print("Valid salary")
             return True
+
 
     def check_birthday(self, birthday):
         try:
@@ -132,3 +147,40 @@ class Validator(IFileValidator):
 
     def check_birthday_against_age(self, birthday, age):
         pass
+
+    def check_in_attributes(self, query_attribute):
+        """
+        >>> v = Validator()
+        >>> v.check_in_attributes("EMPID")
+        True
+        >>> v.check_in_attributes("GENDER")
+        True
+        >>> v.check_in_attributes("AGE")
+        True
+        >>> v.check_in_attributes("SALES")
+        True
+        >>> v.check_in_attributes("BMI")
+        True
+        >>> v.check_in_attributes("SALARY")
+        True
+        >>> v.check_in_attributes("BIRTHDAY")
+        True
+        >>> v.check_in_attributes("Salary")
+        True
+        >>> v.check_in_attributes("SALE")
+        False
+        >>> v.check_in_attributes(True)
+        False
+        >>> v.check_in_attributes(False)
+        False
+        >>> v.check_in_attributes(1)
+        False
+        """
+        try:
+            return query_attribute.upper() in self.attributes
+        except AttributeError:
+            return False
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=1)

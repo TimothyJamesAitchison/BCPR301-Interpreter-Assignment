@@ -34,3 +34,10 @@ class FileHandler:
         else:
             print("There were no valid entries in the file", file=sys.stderr)
             return False
+
+    def open_help(self, subject):
+        pass
+        # open the file (hard-coded file path)
+        # split the file into entries
+        # check the entries for the subject
+        # if found, return the result for that subject

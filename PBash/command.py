@@ -25,7 +25,6 @@ class Command(cmd.Cmd):
     def do_open(self, arg):
         contents = self.file_handler.open(arg)
         if contents:
-            self.view.display(contents)
             self.db.insert(contents)
 
     def do_bar(self, arg):
@@ -46,3 +45,6 @@ class Command(cmd.Cmd):
         if arg == "GENDER":
             if self.db.get_data(arg):
                 self.view.plot_pie_gender(self.db.get_data(arg))
+
+    def do_reload(self, arg):
+        self.db.load()

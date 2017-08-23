@@ -46,13 +46,13 @@ class IFileValidator(metaclass=ABCMeta):
 class Validator(IFileValidator):
 
     def __init__(self):
-        self.id_rule = "[A-Z][0-9]{3}"
-        self.gender_rule = "(M|F)"
-        self.age_rule = "[0-9]{2}"
-        self.sales_rule = "[0-9]{3}"
-        self.bmi_rule = "(Normal|Overweight|Obesity|Underweight)"
-        self.salary_rule = "[0-9]{2,3}"
-        self.birthday_rule = "[1-31]-[1-12]-[0-9]{4}"
+        self.id_rule = "^[A-Z][0-9]{3}$"
+        self.gender_rule = "^(M|F)$"
+        self.age_rule = "^[0-9]{2}$"
+        self.sales_rule = "^[0-9]{3}$"
+        self.bmi_rule = "^(Normal|Overweight|Obesity|Underweight)$"
+        self.salary_rule = "^[0-9]{2,3}$"
+        self.birthday_rule = "^[1-31]-[1-12]-[0-9]{4}$"
         self.attributes = {"EMPID", "GENDER", "AGE", "SALES", "BMI", "SALARY", "BIRTHDAY"}
         self.number_of_attributes = len(self.attributes)
 
@@ -77,25 +77,34 @@ class Validator(IFileValidator):
                 return False
         if not self.check_birthday(employee_attributes["BIRTHDAY"]):
             return False
+        if not self.check_id(employee_attributes["EMPID"]):
+            return False
+        if not self.check_age(employee_attributes["AGE"]):
+            return False
+        if not self.check_sales(employee_attributes["SALES"]):
+            return False
+        if not self.check_bmi(employee_attributes["BMI"]):
+            return False
+        if not self.check_salary(employee_attributes["SALARY"]):
+            return False
+        if not self.check_birthday_against_age(employee_attributes["BIRTHDAY"], employee_attributes["AGE"]):
+            return False
         # Failing to invalidate is a success
         return True
 
     def check_id(self, emp_id):
         # Should be in form of [A-Z][0-9]{3}
-        if len(emp_id) != 3:
-            print('The length of employeeID is invalid!', file=sys.stderr)
+        if not re.match(self.id_rule, emp_id):
+            print('{} is invalid!'.format(emp_id), file=sys.stderr)
             return False
         else:
-            if emp_id.islower():
-                print('The format of employeeID is invalid!', file=sys.stderr)
-                return False
-        # Failing to invalidate is a success
-        return True
+            # Failing to invalidate is a success
+            return True
 
     def check_age(self, age):
         # Should be between 1-99
-        if age not in range(1,100):
-            print('Invalid age!')
+        if not re.match(self.age_rule,age):
+            print('{} is invalid age!'.format(age), file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
@@ -118,17 +127,25 @@ class Validator(IFileValidator):
         >>> v.check_sales("1")
         False
         """
-        if sales not in range(1, 1000):
-            print('Invalid sales!', file=sys.stderr)
+        if not re.match(self.sales_rule,sales):
+            print('{} is invalid sales!'.format(sales), file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
 
     def check_bmi(self, bmi):
-        pass
+        if not re.match(self.bmi_rule,bmi):
+            print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
+            return False
+        # Failing to invalidate is a success
+        return True
 
     def check_salary(self, salary):
-        pass
+        if not re.match(self.salary_rule,salary):
+            print('{} is invalid Salary!'.format(salary), file=sys.stderr)
+            return False
+        # Failing to invalidate is a success
+        return True
 
     def check_birthday(self, birthday):
         try:
@@ -153,6 +170,7 @@ class Validator(IFileValidator):
         False
         """
         if not self.check_birthday(birthday):
+            print('The date was invalid', file=sys.stderr)
             return False
         else:
             day_month_year = birthday.split("-")
@@ -160,8 +178,11 @@ class Validator(IFileValidator):
             month = int(day_month_year[1])
             year = int(day_month_year[2])
             today = date.date.today()
-            return age == today.year - year - ((today.month, today.day) < (month, day))
-
+            if not age == today.year - year + ((today.month, today.day) < (month, day)):
+                print('the age {0} was inconsistent with the birthday {1}'.format(age, birthday), file=sys.stderr)
+                return False
+            else:
+                return True
 
     def check_in_attributes(self, query_attribute):
         """

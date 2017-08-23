@@ -7,7 +7,7 @@ import pickle
 
 try:
     database = pickle.load( open( "db.p", "rb" ) )
-except FileExistsError:
+except FileNotFoundError:
     database = DatabaseHandler(Validator())
     database.load()
     pickle.dump(database, open("db.p", "wb"))

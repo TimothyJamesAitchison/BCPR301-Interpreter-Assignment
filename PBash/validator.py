@@ -168,21 +168,34 @@ class Validator(IFileValidator):
         True
         >>> v.check_birthday_against_age('19-06-1988', 30)
         False
+        >>> v.check_birthday_against_age('19-12-1988', 27)
+        False
+        >>> v.check_birthday_against_age('19-12-1988', 28)
+        True
+        >>> v.check_birthday_against_age('19-12-1988', 29)
+        False
+        >>> v.check_birthday_against_age('19-12-1988', 30)
+        False
         """
         if not self.check_birthday(birthday):
-            print('The date was invalid', file=sys.stderr)
             return False
         else:
             day_month_year = birthday.split("-")
             day = int(day_month_year[0])
             month = int(day_month_year[1])
             year = int(day_month_year[2])
-            today = date.date.today()
-            if not age == today.year - year + ((today.month, today.day) < (month, day)):
-                print('the age {0} was inconsistent with the birthday {1}'.format(age, birthday), file=sys.stderr)
-                return False
+            # adding age because we just want to compare month and day
+            birth = date.datetime(year, month, day)
+            today = date.datetime.today()
+            if birth.month < today.month:
+                # Had a birthday already this year
+                return age == today.year - year
+            elif birth.month == today.month and birth.day < today.day:
+                # Had a birthday already this year (this month)
+                return age == today.year - year
             else:
-                return True
+                # Hasn't had a birthday yet this year.
+                return age == today.year - year - 1
 
     def check_in_attributes(self, query_attribute):
         """

@@ -2,10 +2,12 @@ import sqlite3
 
 
 class DatabaseHandler:
-    def __init__(self, new_validator):
+    def __init__(self, new_validator,database):
         self.validator = new_validator
+        self.database = database
+
         try:
-            self.connection = sqlite3.connect("company.db")
+            self.connection = sqlite3.connect(database+".db")
             self.cursor = self.connection.cursor()
             self.close_db()
         except Exception as e:
@@ -24,7 +26,7 @@ class DatabaseHandler:
 
     def open_db(self):
         try:
-            self.connection = sqlite3.connect("company.db")
+            self.connection = sqlite3.connect(self.database +".db")
             self.cursor = self.connection.cursor()
         except Exception as e:
             print(e)

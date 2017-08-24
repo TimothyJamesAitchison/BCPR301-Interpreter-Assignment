@@ -1,4 +1,4 @@
-import csv
+"""import csv
 import os
 
 
@@ -24,3 +24,6 @@ class ExcelParser:
 data = ExcelParser()
 data.csv_open()
 # data.csv_dict_reader()
+"""
+l = ['element1\t0238.94', 'element2\t2.3904', 'element3\t0139847']
+print([i.split('\t', 1)[0] for i in l])

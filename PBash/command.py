@@ -45,6 +45,14 @@ class Command(cmd.Cmd):
         if arg == "GENDER":
             if self.db.get_data(arg):
                 self.view.plot_pie_gender(self.db.get_data(arg))
+    # hasitha
+    def do_line(self,arg):
+        sales = self.db.get_data("SALES")
+        #print(sales)
+        ages = self.db.get_data("AGE")
+        self.view.pygal_line_salebased(sales,ages)
 
     def do_reload(self, arg):
         self.db.load()
+
+

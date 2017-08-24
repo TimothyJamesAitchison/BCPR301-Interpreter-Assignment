@@ -25,7 +25,7 @@ class ValidatorTests(unittest.TestCase):
         self.assertTrue(v.check_sales(1))
         self.assertTrue(v.check_sales(99))
         self.assertTrue(v.check_sales(998))
-
+    #hasitha
     def test_bmi(self):
         pass
 

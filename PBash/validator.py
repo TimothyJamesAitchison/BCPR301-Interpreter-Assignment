@@ -132,14 +132,14 @@ class Validator(IFileValidator):
             return False
         # Failing to invalidate is a success
         return True
-
+    #hasitha
     def check_bmi(self, bmi):
         if not re.match(self.bmi_rule,bmi):
             print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
-
+    #hasitha
     def check_salary(self, salary):
         if not re.match(self.salary_rule,salary):
             print('{} is invalid Salary!'.format(salary), file=sys.stderr)
@@ -189,13 +189,13 @@ class Validator(IFileValidator):
             today = date.datetime.today()
             if birth.month < today.month:
                 # Had a birthday already this year
-                return age == today.year - year
+                return int(age) == today.year - year
             elif birth.month == today.month and birth.day < today.day:
                 # Had a birthday already this year (this month)
-                return age == today.year - year
+                return int(age) == today.year - year
             else:
                 # Hasn't had a birthday yet this year.
-                return age == today.year - year - 1
+                return int(age) == today.year - year - 1
 
     def check_in_attributes(self, query_attribute):
         """

@@ -1,6 +1,6 @@
 import plotly
 import plotly.graph_objs
-
+import pygal
 
 class View:
     def display(self, list_of_dictionaries):
@@ -40,3 +40,18 @@ class View:
         }
 
         plotly.offline.plot(fig)
+    # hasitha
+    def pygal_line_salebased(self,sales,ages):
+        data_points = []
+        sales = dict(sales)
+        ages = dict(ages)
+        print(sales)
+        print(ages)
+        for employee in sales:
+            data_point = (ages[employee], sales[employee])
+            data_points.append(data_point)
+        xy_chart = pygal.XY(stroke=False)
+        xy_chart.title = 'Correlction between Sales and Age'
+        xy_chart.add('Sales', data_points)
+        xy_chart.render_in_browser()
+

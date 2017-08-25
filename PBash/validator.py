@@ -118,27 +118,86 @@ class Validator(IFileValidator):
 
     # Rosemary
     def check_id(self, emp_id):
+        # Tim
+        """
+        >>> v = Validator()
+        >>> v.check_id('M000')
+        True
+        >>> v.check_id('F999')
+        True
+        >>> v.check_id('m000')
+        False
+        >>> v.check_id('F9999')
+        False
+        >>> v.check_id('MMMM')
+        False
+        >>> v.check_id('0000')
+        False
+        >>> v.check_id('000')
+        False
+        >>> v.check_id('M00')
+        False
+        >>> v.check_id(None)
+        False
+        >>> v.check_id(1)
+        False
+        >>> v.check_id(True)
+        False
+        >>> v.check_id({'M00'})
+        False
+        """
         # Should be in form of [A-Z][0-9]{3}
-        if not re.match(self.id_rule, emp_id):
-            print('{} is invalid!'.format(emp_id), file=sys.stderr)
+        # Exception handling by Tim
+        try:
+            if not re.match(self.id_rule, emp_id):
+                print('{} is invalid!'.format(emp_id), file=sys.stderr)
+                return False
+            else:
+                # Failing to invalidate is a success
+                return True
+        except TypeError:
             return False
-        else:
-            # Failing to invalidate is a success
-            return True
 
     # Tim
     def check_age(self, age):
         # Should be between 1-99
-        if not re.match(self.age_rule, str(age)):
-            print('{} is invalid age!'.format(age), file=sys.stderr)
+        try:
+            if not re.match(self.age_rule, str(age)):
+                print('{} is invalid age!'.format(age), file=sys.stderr)
+                return False
+        except TypeError:
             return False
         # Failing to invalidate is a success
         return True
 
     # Hasitha
     def check_gender(self, gender):
-        if not re.match(self.gender_rule, gender):
-            print('{} is invalid gender!'.format(gender), file=sys.stderr)
+        # Tim
+        """
+        >>> v = Validator()
+        >>> v.check_gender('M')
+        True
+        >>> v.check_gender('F')
+        True
+        >>> v.check_gender('MF')
+        False
+        >>> v.check_gender('m')
+        False
+        >>> v.check_gender('f')
+        False
+        >>> v.check_gender(1)
+        False
+        >>> v.check_gender(True)
+        False
+        >>> v.check_gender(None)
+        False
+        """
+        # Exception handling by Tim
+        try:
+            if not re.match(self.gender_rule, gender):
+                print('{} is invalid gender!'.format(gender), file=sys.stderr)
+                return False
+        except TypeError:
             return False
         # Failing to invalidate is a success
         return True
@@ -150,37 +209,52 @@ class Validator(IFileValidator):
         >>> v = Validator()
         >>> v.check_sales(-1)
         False
-        >>> v.check_sales(0)
-        False
-        >>> v.check_sales(1)
+        >>> v.check_sales('000')
+        True
+        >>> v.check_sales('001')
         True
         >>> v.check_sales(2.5)
         False
-        >>> v.check_sales(999)
+        >>> v.check_sales('999')
         True
-        >>> v.check_sales(1000)
+        >>> v.check_sales('1000')
         False
         >>> v.check_sales("1")
         False
+        >>> v.check_sales(1)
+        False
+        >>> v.check_sales(999)
+        False
         """
-        if not re.match(self.sales_rule, sales):
-            print('{} is invalid sales!'.format(sales), file=sys.stderr)
+        try:
+            if not re.match(self.sales_rule, sales):
+                print('{} is invalid sales!'.format(sales), file=sys.stderr)
+                return False
+        except TypeError:
             return False
         # Failing to invalidate is a success
         return True
 
     # Hasitha
     def check_bmi(self, bmi):
-        if not re.match(self.bmi_rule, bmi):
-            print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
+        # Exception handling by Tim
+        try:
+            if not re.match(self.bmi_rule, bmi):
+                print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
+                return False
+        except TypeError:
             return False
         # Failing to invalidate is a success
         return True
 
     # Hasitha
     def check_salary(self, salary):
-        if not re.match(self.salary_rule, salary):
-            print('{} is invalid Salary!'.format(salary), file=sys.stderr)
+        # Exception handling by Tim
+        try:
+            if not re.match(self.salary_rule, salary):
+                print('{} is invalid Salary!'.format(salary), file=sys.stderr)
+                return False
+        except TypeError:
             return False
         # Failing to invalidate is a success
         return True
@@ -196,6 +270,9 @@ class Validator(IFileValidator):
             return True
         except ValueError:
             print('The date was invalid', file=sys.stderr)
+            return False
+        except AttributeError:
+            print('The date was in an invalid format', file=sys.stderr)
             return False
 
     # Tim

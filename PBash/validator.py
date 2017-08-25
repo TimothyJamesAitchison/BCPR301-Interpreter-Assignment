@@ -96,7 +96,6 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
-
     # Rosemary
     def check_all(self, employee_attributes):
         if not self.check_birthday(employee_attributes["BIRTHDAY"]):
@@ -127,7 +126,7 @@ class Validator(IFileValidator):
             # Failing to invalidate is a success
             return True
 
-    #Tim
+    # Tim
     def check_age(self, age):
         # Should be between 1-99
         if not re.match(self.age_rule, str(age)):
@@ -172,7 +171,7 @@ class Validator(IFileValidator):
 
     # Hasitha
     def check_bmi(self, bmi):
-        if not re.match(self.bmi_rule,bmi):
+        if not re.match(self.bmi_rule, bmi):
             print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
             return False
         # Failing to invalidate is a success
@@ -180,7 +179,7 @@ class Validator(IFileValidator):
 
     # Hasitha
     def check_salary(self, salary):
-        if not re.match(self.salary_rule,salary):
+        if not re.match(self.salary_rule, salary):
             print('{} is invalid Salary!'.format(salary), file=sys.stderr)
             return False
         # Failing to invalidate is a success

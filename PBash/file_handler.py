@@ -55,7 +55,7 @@ class FileHandler:
             print("There were no valid entries in the file", file=sys.stderr)
             return False
 
-    #hasitha
+    # hasitha
     def csv_dict_reader(self, filename):
         """
         >>> f = FileHandler(Validator())

@@ -2,6 +2,7 @@ import cmd
 import sys
 
 
+# noinspection PyUnusedLocal
 class Command(cmd.Cmd):
     def __init__(self, new_file_handler, new_db, new_view):
         cmd.Cmd.__init__(self)
@@ -11,7 +12,7 @@ class Command(cmd.Cmd):
         self.view = new_view
 
     @staticmethod
-    def do_quit(self):
+    def do_quit(arg):
         sys.exit(1)
 
     def help_quit(self):
@@ -65,7 +66,7 @@ class Command(cmd.Cmd):
     def do_line(self, arg):
         sales = self.db.get_data("SALES")
         ages = self.db.get_data("AGE")
-        self.view.pygal_line_salebased(sales,ages)
+        self.view.pygal_line_salebased(sales, ages)
 
     # ???
     def help_line(self):

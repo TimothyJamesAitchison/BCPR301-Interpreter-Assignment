@@ -23,7 +23,7 @@ class View:
             print(employee[0])
             values.append(employee[1])
             print(employee[1])
-        chart = {"data": [plotly.graph_objs.Bar(x=keys,y=values)]}
+        chart = {"data": [plotly.graph_objs.Bar(x=keys, y=values)]}
         plotly.offline.plot(chart)
 
     # Tim
@@ -51,7 +51,8 @@ class View:
         plotly.offline.plot(fig)
 
     # Hasitha
-    def pygal_line_salebased(self, sales, ages):
+    @staticmethod
+    def pygal_line_salebased(sales, ages):
         data_points = []
         sales = dict(sales)
         ages = dict(ages)
@@ -69,7 +70,8 @@ class View:
 
     # Rosemary
     # age vs salary
-    def age_salary(self, ages, salarys):
+    @staticmethod
+    def age_salary(ages, salarys):
         data_points = []
         ages = dict(ages)
         salarys = dict(salarys)

@@ -14,9 +14,9 @@ except IndexError:
 
 try:
 
-    database = pickle.load( open(database_name + ".p", "rb"))
+    database = pickle.load(open(database_name + ".p", "rb"))
 except FileNotFoundError:
-    database = DatabaseHandler(Validator(),database_name)
+    database = DatabaseHandler(Validator(), database_name)
     database.load()
     pickle.dump(database, open(database_name+".p", "wb"))
 cli = Command(FileHandler(Validator()), database, View())

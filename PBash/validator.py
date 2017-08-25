@@ -4,7 +4,7 @@ from abc import ABCMeta, abstractmethod
 import re
 import datetime as date
 
-
+# Tim
 class IFileValidator(metaclass=ABCMeta):
     @abstractmethod
     def check_data_set(self, data_set):
@@ -12,6 +12,10 @@ class IFileValidator(metaclass=ABCMeta):
 
     @abstractmethod
     def check_line(self, employee_attributes):
+        pass
+
+    @abstractmethod
+    def check_all(self, employee_attributes):
         pass
 
     @abstractmethod
@@ -39,12 +43,17 @@ class IFileValidator(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def check_gender(self, gender):
+        pass
+
+    @abstractmethod
     def check_birthday_against_age(self, birthday, age):
         pass
 
 
 class Validator(IFileValidator):
 
+    # Tim
     def __init__(self):
         self.id_rule = "^[A-Z][0-9]{3}$"
         self.gender_rule = "^(M|F)$"
@@ -56,6 +65,7 @@ class Validator(IFileValidator):
         self.attributes = {"EMPID", "GENDER", "AGE", "SALES", "BMI", "SALARY", "BIRTHDAY"}
         self.number_of_attributes = len(self.attributes)
 
+    # Tim
     def check_data_set(self, data_set):
         # Should be of form [{EMPID: B12, GENDER: M, AGE: 22, etc}, {EMPID: 55Y, GENDER: F, etc}]
         if len(data_set) == 0:
@@ -69,17 +79,27 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
+    # Tim
     def check_line(self, employee_attributes):
         # Should be of form {EMPID: B12, GENDER: M, AGE: 22, etc}
         for attribute in self.attributes:
             if attribute not in employee_attributes:
                 print('Missing attribute: {}'.format(attribute), file=sys.stderr)
                 return False
+        if not self.check_all(employee_attributes):
+            return False
+        # Failing to invalidate is a success
+        return True
+
+    # Rosemary
+    def check_all(self, employee_attributes):
         if not self.check_birthday(employee_attributes["BIRTHDAY"]):
             return False
         if not self.check_id(employee_attributes["EMPID"]):
             return False
         if not self.check_age(employee_attributes["AGE"]):
+            return False
+        if not self.check_gender(employee_attributes["GENDER"]):
             return False
         if not self.check_sales(employee_attributes["SALES"]):
             return False
@@ -89,9 +109,8 @@ class Validator(IFileValidator):
             return False
         if not self.check_birthday_against_age(employee_attributes["BIRTHDAY"], employee_attributes["AGE"]):
             return False
-        # Failing to invalidate is a success
-        return True
 
+    # Rosemary
     def check_id(self, emp_id):
         # Should be in form of [A-Z][0-9]{3}
         if not re.match(self.id_rule, emp_id):
@@ -101,6 +120,7 @@ class Validator(IFileValidator):
             # Failing to invalidate is a success
             return True
 
+    #Tim
     def check_age(self, age):
         # Should be between 1-99
         if not re.match(self.age_rule,age):
@@ -109,7 +129,17 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
+    # Hasitha
+    def check_gender(self, gender):
+        if not re.match(self.gender_rule, gender):
+            print('{} is invalid gender!'.format(gender), file=sys.stderr)
+            return False
+        # Failing to invalidate is a success
+        return True
+
+    # Rosemary
     def check_sales(self, sales):
+        # Tim
         """
         >>> v = Validator()
         >>> v.check_sales(-1)
@@ -127,19 +157,21 @@ class Validator(IFileValidator):
         >>> v.check_sales("1")
         False
         """
-        if not re.match(self.sales_rule,sales):
+        if not re.match(self.sales_rule, sales):
             print('{} is invalid sales!'.format(sales), file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
-    #hasitha
+
+    # Hasitha
     def check_bmi(self, bmi):
         if not re.match(self.bmi_rule,bmi):
             print('{} is invalid BMI!'.format(bmi), file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
-    #hasitha
+
+    # Hasitha
     def check_salary(self, salary):
         if not re.match(self.salary_rule,salary):
             print('{} is invalid Salary!'.format(salary), file=sys.stderr)
@@ -147,6 +179,7 @@ class Validator(IFileValidator):
         # Failing to invalidate is a success
         return True
 
+    # Tim
     def check_birthday(self, birthday):
         try:
             day_month_year = birthday.split("-")
@@ -159,7 +192,9 @@ class Validator(IFileValidator):
             print('The date was invalid', file=sys.stderr)
             return False
 
+    # Tim
     def check_birthday_against_age(self, birthday, age):
+        # Tim
         """
         >>> v = Validator()
         >>> v.check_birthday_against_age('19-06-1988', 28)
@@ -197,7 +232,9 @@ class Validator(IFileValidator):
                 # Hasn't had a birthday yet this year.
                 return int(age) == today.year - year - 1
 
+    # Tim
     def check_in_attributes(self, query_attribute):
+        # Tim
         """
         >>> v = Validator()
         >>> v.check_in_attributes("EMPID")

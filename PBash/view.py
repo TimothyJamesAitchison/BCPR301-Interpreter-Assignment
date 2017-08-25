@@ -2,13 +2,18 @@ import plotly
 import plotly.graph_objs
 import pygal
 
+
 class View:
-    def display(self, list_of_dictionaries):
+    # Tim
+    @staticmethod
+    def display(list_of_dictionaries):
         for dictionary in list_of_dictionaries:
             for key in dictionary:
                 print("{0} = {1}".format(key, dictionary[key]))
 
-    def plot_bar(self, data, label):
+    # Tim
+    @staticmethod
+    def plot_bar(data):
         values = []
         keys = []
         for employee in data:
@@ -19,7 +24,9 @@ class View:
         chart = {"data": [plotly.graph_objs.Bar(x=keys,y=values)]}
         plotly.offline.plot(chart)
 
-    def plot_pie_gender(self, data):
+    # Tim
+    @staticmethod
+    def plot_pie_gender(data):
         males = 0
         females = 0
         others = 0
@@ -40,8 +47,9 @@ class View:
         }
 
         plotly.offline.plot(fig)
-    # hasitha
-    def pygal_line_salebased(self,sales,ages):
+
+    # Hasitha
+    def pygal_line_salebased(self, sales, ages):
         data_points = []
         sales = dict(sales)
         ages = dict(ages)
@@ -54,4 +62,3 @@ class View:
         xy_chart.title = 'Correlction between Sales and Age'
         xy_chart.add('Sales', data_points)
         xy_chart.render_in_browser()
-

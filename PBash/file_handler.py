@@ -1,15 +1,26 @@
 from __future__ import print_function
 import sys
 import csv
+import re
 from validator import Validator
+
 
 class FileHandler:
     def __init__(self, new_validator):
         self.validator = new_validator
 
     def open(self, file_path):
+        if re.search(r'\.csv$', file_path):
+            return self.csv_dict_reader(file_path)
+        elif re.search(r'\.txt$', file_path):
+            return self.txt_dict_reader(file_path)
+        else:
+            print('Invalid file extension', file=sys.stderr)
+            return False
+
+    def txt_dict_reader(self, filename):
         try:
-            file = open(file_path, "r")
+            file = open(filename, "r")
         except FileNotFoundError:
             print('The file was not found', file=sys.stderr)
             return False
@@ -35,6 +46,7 @@ class FileHandler:
         else:
             print("There were no valid entries in the file", file=sys.stderr)
             return False
+
     #hasitha
     def csv_dict_reader(self, filename):
         """
@@ -81,7 +93,7 @@ class FileHandler:
                 else:
                     print("There were no valid entries in the file", file=sys.stderr)
                     return False
-        except FileExistsError:
+        except FileNotFoundError:
             print('The file was not found', file=sys.stderr)
             return False
 

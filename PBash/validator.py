@@ -87,10 +87,15 @@ class Validator(IFileValidator):
             if attribute not in employee_attributes:
                 print('Missing attribute: {}'.format(attribute), file=sys.stderr)
                 return False
-        if not self.check_all(employee_attributes):
+        try:
+            if not self.check_all(employee_attributes):
+                return False
+        except TypeError:
+            print('The data was not bundled correctly', file=sys.stderr)
             return False
         # Failing to invalidate is a success
         return True
+
 
     # Rosemary
     def check_all(self, employee_attributes):
@@ -125,7 +130,7 @@ class Validator(IFileValidator):
     #Tim
     def check_age(self, age):
         # Should be between 1-99
-        if not re.match(self.age_rule,age):
+        if not re.match(self.age_rule, str(age)):
             print('{} is invalid age!'.format(age), file=sys.stderr)
             return False
         # Failing to invalidate is a success

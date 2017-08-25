@@ -17,7 +17,7 @@ class FileHandler:
             return self.txt_dict_reader(file_path)
         elif re.search(r'\.xlsx$', file_path):
             result = self.excel_reader(file_path)
-            if self.validator.check_data_set(result):
+            if result and self.validator.check_data_set(result):
                 return result
             else:
                 print("There were no valid entries in the file", file=sys.stderr)
@@ -93,9 +93,6 @@ class FileHandler:
                         the_list.append(employee)
                     else:
                         print('Entry failed validation', file=sys.stderr)
-                        for key in employee:
-                            print(key)
-                            print(employee[key])
                 if self.validator.check_data_set(the_list):
                     return the_list
                 else:
@@ -144,12 +141,19 @@ class FileHandler:
                 employee["BMI"] = sheet.cell(column=5, row=x).value
                 employee["SALARY"] = sheet.cell(column=6, row=x).value
                 employee["BIRTHDAY"] = sheet.cell(column=7, row=x).value
-                the_list.append(employee)
-            return the_list
+                if self.validator.check_line(employee):
+                    the_list.append(employee)
+                else:
+                    print('Entry failed validation', file=sys.stderr)
+            if self.validator.check_data_set(the_list):
+                return the_list
+            else:
+                print("There were no valid entries in the file", file=sys.stderr)
+                return False
         except FileNotFoundError:
             print("File not found!", file=sys.stderr)
             return False
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod(verbose=0)
+    doctest.testmod(verbose=1)

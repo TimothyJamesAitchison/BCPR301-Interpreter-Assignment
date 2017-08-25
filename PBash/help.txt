@@ -1,0 +1,9 @@
+quit=Quits the program. Takes no parameters.
+open=Opens a file and saves it's data to the database. Takes a file path as parameter, which must end in .txt or .csv or .xlsx.
+bar=
+get=
+pie=
+line=
+linegraph=
+scatter=
+reload=Clears the current database of all data. Takes no parameters.

@@ -55,3 +55,18 @@ class View:
         xy_chart.add('Sales', data_points)
         xy_chart.render_in_browser()
 
+    # Rosemary
+    # age vs salary
+    def age_salary(self,ages,salarys):
+        data_points = []
+        ages = dict(ages)
+        salarys = dict(hasattr())
+        print(ages)
+        print(salarys)
+        for employee in ages:
+            data_point = (salarys[employee], ages[employee])
+            data_points.append(data_point)
+        xy_chart = pygal.XY(stroke=False)
+        xy_chart.title = 'Correlction between Ages and Sales'
+        xy_chart.add('Ages', data_points)
+        xy_chart.render_in_browser()

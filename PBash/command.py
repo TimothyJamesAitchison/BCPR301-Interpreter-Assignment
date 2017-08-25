@@ -55,4 +55,16 @@ class Command(cmd.Cmd):
     def do_reload(self, arg):
         self.db.load()
 
+    # Rosemary
+    def do_search(self, arg):
+        emp_info = self.db.get_emp()
+        print(emp_info)
 
+    def help_search(sef):
+    	print("Search an employee's information by ID")
+
+    def do_linegraph(self,arg):
+        ages = self.db.get_data("AGE")
+        #print(sales)
+        salarys = self.db.get_data("SALARY")
+        self.view.pygal_line_salebased(ages,salarys)

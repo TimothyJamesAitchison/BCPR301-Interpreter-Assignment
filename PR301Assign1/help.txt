@@ -1,0 +1,9 @@
+quit=Quits the program. Takes no parameters.
+open=Opens a file and saves it's data to the database. Takes a file path as parameter, which must end in .txt or .csv or .xlsx.
+bar=Creates a bar chart based on passed in parameter.
+get=get an employee's information from ID.
+pie=Creates a pie chart based on all employee's gender.
+line=Creates a line graph of sale against age.
+linegraph=Creates a line graph of age against salary.
+scatter=Creates a scatter graph of salary or sales.
+reload=Clears the current database of all data. Takes no parameters.

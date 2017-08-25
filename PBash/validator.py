@@ -4,6 +4,7 @@ from abc import ABCMeta, abstractmethod
 import re
 import datetime as date
 
+
 # Tim
 class IFileValidator(metaclass=ABCMeta):
     @abstractmethod
@@ -109,6 +110,7 @@ class Validator(IFileValidator):
             return False
         if not self.check_birthday_against_age(employee_attributes["BIRTHDAY"], employee_attributes["AGE"]):
             return False
+        return True
 
     # Rosemary
     def check_id(self, emp_id):

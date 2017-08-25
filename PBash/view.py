@@ -1,6 +1,8 @@
+from __future__ import print_function
 import plotly
 import plotly.graph_objs
 import pygal
+import sys
 
 
 class View:
@@ -53,12 +55,32 @@ class View:
         data_points = []
         sales = dict(sales)
         ages = dict(ages)
-        print(sales)
-        print(ages)
         for employee in sales:
             data_point = (ages[employee], sales[employee])
             data_points.append(data_point)
         xy_chart = pygal.XY(stroke=False)
         xy_chart.title = 'Correlction between Sales and Age'
         xy_chart.add('Sales', data_points)
-        xy_chart.render_in_browser()
+        # Tim
+        try:
+            xy_chart.render_in_browser()
+        except ImportError:
+            print('Could not display chart on this computer as does not have lxml installed', file=sys.stderr)
+
+    # Rosemary
+    # age vs salary
+    def age_salary(self, ages, salarys):
+        data_points = []
+        ages = dict(ages)
+        salarys = dict(salarys)
+        for employee in ages:
+            data_point = (salarys[employee], ages[employee])
+            data_points.append(data_point)
+        xy_chart = pygal.XY(stroke=False)
+        xy_chart.title = 'Correlction between Ages and Sales'
+        xy_chart.add('Ages', data_points)
+        # Tim
+        try:
+            xy_chart.render_in_browser()
+        except ImportError:
+            print('Could not display chart on this computer as does not have lxml installed', file=sys.stderr)

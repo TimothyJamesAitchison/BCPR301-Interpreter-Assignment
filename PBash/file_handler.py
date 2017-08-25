@@ -2,6 +2,7 @@ from __future__ import print_function
 import sys
 import csv
 import re
+import openpyxl
 from validator import Validator
 
 
@@ -14,6 +15,13 @@ class FileHandler:
             return self.csv_dict_reader(file_path)
         elif re.search(r'\.txt$', file_path):
             return self.txt_dict_reader(file_path)
+        elif re.search(r'\.xlsx$', file_path):
+            result = self.excel_reader(file_path)
+            if self.validator.check_data_set(result):
+                return result
+            else:
+                print("There were no valid entries in the file", file=sys.stderr)
+                return False
         else:
             print('Invalid file extension', file=sys.stderr)
             return False
@@ -103,6 +111,44 @@ class FileHandler:
         # split the file into entries
         # check the entries for the subject
         # if found, return the result for that subject
+
+    def excel_reader(self, filename):
+        """
+        >>> f = FileHandler(Validator())
+        >>> result = f.excel_reader("testingdata.xlsx")
+        >>> print(result[0]['EMPID'])
+        A001
+        >>> print(result[0]['GENDER'])
+        F
+        >>> print(result[0]['AGE'])
+        21
+        >>> print(result[0]['SALES'])
+        001
+        >>> print(result[0]['BMI'])
+        Normal
+        >>> print(result[0]['BIRTHDAY'])
+        1-1-1996
+        >>> print(result[0]['SALARY'])
+        12
+        """
+        try:
+            wb = openpyxl.load_workbook(filename)
+            sheet = wb.active
+            the_list = []
+            for x in range(2, 29):
+                employee = dict()
+                employee["EMPID"] = sheet.cell(column=1, row=x).value
+                employee["GENDER"] = sheet.cell(column=2, row=x).value
+                employee["AGE"] = sheet.cell(column=3, row=x).value
+                employee["SALES"] = sheet.cell(column=4, row=x).value
+                employee["BMI"] = sheet.cell(column=5, row=x).value
+                employee["SALARY"] = sheet.cell(column=6, row=x).value
+                employee["BIRTHDAY"] = sheet.cell(column=7, row=x).value
+                the_list.append(employee)
+            return the_list
+        except FileNotFoundError:
+            print("File not found!", file=sys.stderr)
+            return False
 
 if __name__ == "__main__":
     import doctest

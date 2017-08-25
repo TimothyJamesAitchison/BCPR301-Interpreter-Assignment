@@ -101,3 +101,17 @@ class DatabaseHandler:
                 print(employee)
             self.close_db()
             return employees
+    
+    # Rosemary get employee by id
+    def get_emp(self, id):
+        try:
+            self.open_db()
+            target = self.cursor.execute('SELECT * FROM employee FROM employee WHERE EMPID ={id}'.format(id=id))
+            results = target.fetchall()
+            self.close_db()
+            return results
+
+        except Exception as e:
+            print(e)
+        else:
+            print(target)

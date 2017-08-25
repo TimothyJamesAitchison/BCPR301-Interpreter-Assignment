@@ -84,7 +84,46 @@ class FileHandler:
         except FileExistsError:
             print('The file was not found', file=sys.stderr)
             return False
+        
+    def excel_reader(self, filename):
+        """
+        >>> f = FileHandler(Validator())
+        >>> result = f.excel_reader("testingdata.xlsx")
+        >>> print(result[0]['EMPID'])
+        A001
+        >>> print(result[0]['GENDER'])
+        F
+        >>> print(result[0]['AGE'])
+        21
+        >>> print(result[0]['SALES'])
+        001
+        >>> print(result[0]['BMI'])
+        Normal
+        >>> print(result[0]['BIRTHDAY'])
+        1-1-1996
+        >>> print(result[0]['SALARY'])
+        12
+        """
+        try:
+            wb = openpyxl.load_workbook(filename)
+            sheet = wb.active
+            the_list = []
+            for x in range(2, 29):
+                employee = dict()
+                employee["EMPID"] = sheet.cell(column=1, row=x).value
+                employee["GENDER"] = sheet.cell(column=2, row=x).value
+                employee["AGE"] = sheet.cell(column=3, row=x).value
+                employee["SALES"] = sheet.cell(column=4, row=x).value
+                employee["BMI"] = sheet.cell(column=5, row=x).value
+                employee["SALARY"] = sheet.cell(column=6, row=x).value
+                employee["BIRTHDAY"] = sheet.cell(column=7, row=x).value
 
+                the_list.append(employee)
+                return the_list
+        except FileNotFoundError:
+            print("File not found!", file=sys.stderr)
+        
+        
     def open_help(self, subject):
         pass
         # open the file (hard-coded file path)

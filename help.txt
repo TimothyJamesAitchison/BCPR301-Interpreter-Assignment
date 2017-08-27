@@ -1,0 +1,9 @@
+quit=Quits the program. Takes no parameters.
+open=Opens a file and saves it's data to the database. Takes a file path as parameter, which must end in .txt or .csv or .xlsx.
+bar= Generates the bar chart using the user specfied data such as sales and salary
+get= Get data from the database user required for example: user wants all data of the empID user can say get empid then data relevant to the will be showed
+pie= user can get generate data using the gender
+line=Draws a scatter plot of Sales vs Age. Takes no parameters.
+linegraph=Draws a scatter plot of Age vs Salary. Takes no parameters.
+scatter=user can see the deatils of salary and age and there Correlation  
+reload=Clears the current database of all data. Takes no parameters.

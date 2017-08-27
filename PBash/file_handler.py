@@ -132,7 +132,7 @@ class FileHandler:
         """
         >>> f = FileHandler(new_validator=Validator)
         >>> print(f.open_help('line'))
-        line command vitualize the data.
+        Draws a scatter plot of Sales vs Age. Takes no parameters.
         >>> print(f.open_help('help'))
         help command brings out all command.
         >>> print(f.open_help('helpp'))

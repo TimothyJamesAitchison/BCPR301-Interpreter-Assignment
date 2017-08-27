@@ -7,3 +7,4 @@ line=Draws a scatter plot of Sales vs Age. Takes no parameters.
 linegraph=Draws a scatter plot of Age vs Salary. Takes no parameters.
 scatter=
 reload=Clears the current database of all data. Takes no parameters.
+help=help command brings out all command.

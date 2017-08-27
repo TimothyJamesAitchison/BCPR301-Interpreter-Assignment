@@ -98,7 +98,6 @@ class Validator(IFileValidator):
         for attribute in self.attributes:
             if attribute not in employee_attributes:
                 print('Missing attribute: {}'.format(attribute), file=sys.stderr)
-                return False
         try:
             if not self.check_all(employee_attributes):
                 return False

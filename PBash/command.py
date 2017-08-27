@@ -15,8 +15,13 @@ class Command(cmd.Cmd):
     def do_quit(arg):
         sys.exit(1)
 
+    # Rosemary
     def help_quit(self):
-        pass
+        result = self.file_handler.open_help("quit")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Tim
     def do_open(self, arg):
@@ -117,14 +122,23 @@ class Command(cmd.Cmd):
         else:
             print('The valid options for a scatter graph are salary or sales')
 
+    #Rosemary
     def help_scatter(self):
-        pass
+        result = self.file_handler.open_help("scatter")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Tim
     def do_reload(self, arg):
         self.db.load()
         self.file_handler.set_rules()
 
-    # ???
+    # Hasitha
     def help_reload(self):
-        pass
+        result = self.file_handler.open_help("reload")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)

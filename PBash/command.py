@@ -24,9 +24,13 @@ class Command(cmd.Cmd):
         if contents:
             self.db.insert(contents)
 
-    # ???
+    # Tim
     def help_open(self):
-        print(self.file_handler.open_help("OPEN"))
+        result = self.file_handler.open_help("open")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Tim
     def do_bar(self, arg):
@@ -43,9 +47,13 @@ class Command(cmd.Cmd):
     def do_get(self, arg):
         self.db.query(arg)
 
-    # ???
+    # Tim
     def help_get(self):
-        pass
+        result = self.file_handler.open_help("get")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Tim
     def do_pie(self, arg):
@@ -58,9 +66,13 @@ class Command(cmd.Cmd):
         else:
             print('The valid option for a pie graph is currently only gender')
 
-    # ???
+    # Tim
     def help_pie(self):
-        pass
+        result = self.file_handler.open_help("pie")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Hasitha
     def do_line(self, arg):
@@ -68,9 +80,13 @@ class Command(cmd.Cmd):
         ages = self.db.get_data("AGE")
         self.view.pygal_line_salebased(sales, ages)
 
-    # ???
+    # Tim
     def help_line(self):
-        pass
+        result = self.file_handler.open_help("line")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
     # Rosemary
     def do_linegraph(self, arg):
@@ -79,10 +95,15 @@ class Command(cmd.Cmd):
         salarys = self.db.get_data("SALARY")
         self.view.age_salary(ages, salarys)
 
-    # ???
+    # Tim
     def help_linegraph(self):
-        pass
+        result = self.file_handler.open_help("linegraph")
+        if result == "No such command.":
+            print("Could not find entry in help file")
+        else:
+            print(result)
 
+    # Tim
     def do_scatter(self, arg):
         arg = arg.upper()
         if arg == "SALARY":
@@ -96,9 +117,13 @@ class Command(cmd.Cmd):
         else:
             print('The valid options for a scatter graph are salary or sales')
 
+    def help_scatter(self):
+        pass
+
     # Tim
     def do_reload(self, arg):
         self.db.load()
+        self.file_handler.set_rules()
 
     # ???
     def help_reload(self):

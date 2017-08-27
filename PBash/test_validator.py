@@ -93,7 +93,7 @@ class ValidatorTests(unittest.TestCase):
         self.assertTrue(v.check_in_attributes("BIRTHDAY"))
         self.assertTrue(v.check_in_attributes("birthday"))
         self.assertFalse(v.check_in_attributes(True))
-        self.assertFalse(v.check_in_attributes(['EMPID','GENDER']))
+        self.assertFalse(v.check_in_attributes(['EMPID', 'GENDER']))
         self.assertFalse(v.check_in_attributes(None))
         self.assertFalse(v.check_in_attributes(1))
 

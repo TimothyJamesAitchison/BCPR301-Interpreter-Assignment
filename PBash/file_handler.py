@@ -102,8 +102,33 @@ class FileHandler:
             print('The file was not found', file=sys.stderr)
             return False
 
+    # Tim
+    @staticmethod
+    def open_rules():
+        try:
+            file = open('rules.txt', "r")
+        except FileNotFoundError:
+            print('Cannot find rules.txt', file=sys.stderr)
+            return False
+        rules = {}
+        for line in file:
+            if len(line.split("=")) == 2:
+                key = line.split("=")[0]
+                value = line.split("=")[1]
+                value = value.rstrip('\n')
+                rules[key] = value
+            else:
+                print('The file was in an invalid format', file=sys.stderr)
+                return False
+        return rules
+
+    # Tim
+    def set_rules(self):
+        self.validator.set_rules(self.open_rules())
+
     # Rosemary
-    def open_help(self, help_command):
+    @staticmethod
+    def open_help(help_command):
         """
         >>> f = FileHandler(new_validator=Validator)
         >>> print(f.open_help('line'))

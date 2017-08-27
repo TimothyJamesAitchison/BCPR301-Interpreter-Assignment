@@ -18,13 +18,15 @@ class View:
     def plot_bar(data):
         values = []
         keys = []
-        for employee in data:
-            keys.append(employee[0])
-            print(employee[0])
-            values.append(employee[1])
-            print(employee[1])
-        chart = {"data": [plotly.graph_objs.Bar(x=keys, y=values)]}
-        plotly.offline.plot(chart)
+        try:
+            for employee in data:
+                if employee[0] is int and employee[1] is int:
+                    keys.append(employee[0])
+                    values.append(employee[1])
+            chart = {"data": [plotly.graph_objs.Bar(x=keys, y=values)]}
+            plotly.offline.plot(chart)
+        except KeyError:
+            print('Data was invalid', file=sys.stderr)
 
     # Tim
     @staticmethod
@@ -32,23 +34,24 @@ class View:
         males = 0
         females = 0
         others = 0
-        for employee in data:
-            if employee[1] == "M":
-                males += 1
-            elif employee[1] == "F":
-                females += 1
-            else:
-                others += 1
-
-        fig = {
-            'data': [{'labels': ['Male', 'Female', 'Other'],
-                      'values': [males, females, others],
-                      'type': 'pie'}],
-            'layout': {
-                'title': 'Gender diversity in organisation'}
-        }
-
-        plotly.offline.plot(fig)
+        try:
+            for employee in data:
+                if employee[1] == "M":
+                    males += 1
+                elif employee[1] == "F":
+                    females += 1
+                else:
+                    others += 1
+            fig = {
+                'data': [{'labels': ['Male', 'Female', 'Other'],
+                          'values': [males, females, others],
+                          'type': 'pie'}],
+                'layout': {
+                    'title': 'Gender diversity in organisation'}
+            }
+            plotly.offline.plot(fig)
+        except KeyError:
+            print('Data was invalid', file=sys.stderr)
 
     # Hasitha
     @staticmethod

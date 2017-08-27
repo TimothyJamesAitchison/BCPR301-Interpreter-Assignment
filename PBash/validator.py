@@ -67,6 +67,18 @@ class Validator(IFileValidator):
         self.number_of_attributes = len(self.attributes)
 
     # Tim
+    def set_rules(self, rules):
+        try:
+            self.id_rule = rules['id']
+            self.gender_rule = rules['gender']
+            self.age_rule = rules['age']
+            self.sales_rule = rules['sales']
+            self.bmi_rule = rules['bmi']
+            self.salary_rule = rules['salary']
+        except KeyError as missing_key:
+            print('The key {} was missing from the rules.txt file'.format(missing_key), file=sys.stderr)
+
+    # Tim
     def check_data_set(self, data_set):
         # Should be of form [{EMPID: B12, GENDER: M, AGE: 22, etc}, {EMPID: 55Y, GENDER: F, etc}]
         if len(data_set) == 0:
